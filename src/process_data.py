@@ -22,7 +22,7 @@ def load_custom(tokenizer, train_frac):
     import json
 
     total_dialogues = []
-    with open('custom/train_sum_2.json') as f:
+    with open('custom/summarized_data.json') as f:
         json_obj = json.load(f)
 
     for data_aug in range(1):
@@ -36,7 +36,7 @@ def load_custom(tokenizer, train_frac):
             ## test ##
 
             ## ##   
-            if utter != '':
+            if utter.strip() != '':
                 
                 token_list = tokenizer.tokenize(utter.strip().replace(pre_quote, quotes[1]))
                 #토큰화 합니다.
@@ -235,7 +235,10 @@ def process_token_list(token_list):
     token_list[0] = token_list[0].capitalize()
     
     quote_count = 0
+
+    error_count = 0
     for i, token in enumerate(token_list):
+
         if space in token:
             if token[1:] in end_marks or token[1:] in abbreviations:
                 token_list[i] = token[1:]
@@ -244,7 +247,10 @@ def process_token_list(token_list):
                 if i<len(token_list)-1:
                     if token_list[i+1] in abbreviations or (token_list[i+1][0] == space and token_list[i+1][1:] in abbreviations):
                         token_list[i] = token[1:]
-                        
+        ## nothing in token ##
+        if token == '':
+            continue
+        ## ##
         if token[0] == space and token[1:] in quotes:
             if quote_count % 2 == 1:
                 token_list[i] = token[1:]
@@ -260,7 +266,7 @@ def process_token_list(token_list):
                     token_list[i+1] = space + token_list[i+1].capitalize()
                 else:
                     token_list[i+1] = space + token_list[i+1][1:].capitalize()
-                
+     
     new_token_list = [token for token in token_list if token != space and len(token)>0]
     if new_token_list[-1] not in end_marks:
         new_token_list.append(end_marks[0])

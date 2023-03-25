@@ -11,5 +11,5 @@ python src/main.py \
     --max_turns=5 \
     --top_p=0.8 \
     --ckpt_dir="saved_models" \
-    --ckpt_name="best_ckpt_epoch=1_valid_loss=0.0005" \
+    --ckpt_name="best_ckpt_epoch=1_valid_loss=2.6603" \
     --end_command="Abort!"

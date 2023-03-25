@@ -11,9 +11,9 @@ python src/main.py \
     --gpu="0" \
     --lr=2e-5 \
     --warmup_ratio=0.0 \
-    --batch_size=4 \
+    --batch_size=8 \
     --num_workers=0 \
-    --num_epochs=4 \
-    --max_len=128 \
+    --num_epochs=1 \
+    --max_len=256 \
     --max_turns=5 \
     --ckpt_dir="saved_models"
