@@ -159,7 +159,7 @@ class Manager():
                 loss.backward()
                 self.optim.step()
                 self.sched.step()
-                print(loss.detach())
+                
                 train_losses.append(loss.detach()) #segmentation error
                 ##
                 #assert False
@@ -257,43 +257,59 @@ class Manager():
         with torch.no_grad():
             input_hists = []
             
+            input_example = ["hello" , "what's your name?" , "Abort!"]
+            ex_cnt = 0
             while True:
-                utter = input("You: ")
+                #utter = input("You: ")
+                utter = input_example[ex_cnt]
+                ex_cnt += 1
+
                 if utter == self.args.end_command:
                     print("Bot: Good bye.")
                     break
                 
-                input_ids = [self.args.sp1_id] + self.tokenizer.encode(utter)
+                ## summarized input ##
+                input_hists = []
+                sumrz_input = "Summarzied sentence example"
+                sumrz_input_ids = [self.args.sp1_id] + self.tokenizer.encode(sumrz_input)
+                input_hists.append(sumrz_input_ids)
+                ## ##
+
+                input_ids = [self.args.sp2_id] + self.tokenizer.encode(utter)
                 input_hists.append(input_ids)
                 
-                if len(input_hists) >= self.args.max_turns:
-                    num_exceeded = len(input_hists) - self.args.max_turns + 1
-                    input_hists = input_hists[num_exceeded:]
+                #if len(input_hists) >= self.args.max_turns:
+                    #num_exceeded = len(input_hists) - self.args.max_turns + 1
+                    #input_hists = input_hists[num_exceeded:]
                     
-                input_ids = [self.args.bos_id] + list(chain.from_iterable(input_hists)) + [self.args.sp2_id]
-                start_sp_id = input_hists[0][0]
-                next_sp_id = self.args.sp1_id if start_sp_id == self.args.sp2_id else self.args.sp2_id
+                input_ids = [self.args.bos_id] + list(chain.from_iterable(input_hists)) + [self.args.sp1_id] # 2 -> 1
+                #start_sp_id = input_hists[0][0]
+                start_sp_id = self.args.sp1_id
+           
+                #next_sp_id = self.args.sp1_id if start_sp_id == self.args.sp2_id else self.args.sp2_id
+                next_sp_id = self.args.sp2_id
+
                 assert start_sp_id != next_sp_id
                 token_type_ids = [[start_sp_id] * len(hist) if h % 2 == 0 else [next_sp_id] * len(hist) for h, hist in enumerate(input_hists)]
                 assert len(token_type_ids) == len(input_hists)
-                token_type_ids = [start_sp_id] + list(chain.from_iterable(token_type_ids)) + [self.args.sp2_id]
+                token_type_ids = [start_sp_id] + list(chain.from_iterable(token_type_ids)) + [self.args.sp1_id] # 2 -> 1
                 assert len(input_ids) == len(token_type_ids)
                 input_len = len(input_ids)
                 
                 input_ids = torch.LongTensor(input_ids).unsqueeze(0).to(self.args.device)
                 token_type_ids = torch.LongTensor(token_type_ids).unsqueeze(0).to(self.args.device)
                 
-                output_ids = self.nucleus_sampling(input_ids, token_type_ids, input_len)                
-                # output_ids = self.model.generate(
-                #     input_ids=input_ids, token_type_ids=token_type_ids, pad_token_id=self.args.eos_id,
-                #     do_sample=True, top_p=self.args.top_p, max_length=self.args.max_len,
-                #     output_hidden_states=True, output_scores=True, return_dict_in_generate=True,
-                # ).sequences
-                # output_ids = output_ids[0].tolist()[input_len:]
+                #output_ids = self.nucleus_sampling(input_ids, token_type_ids, input_len)                
+                output_ids = self.model.generate(
+                    input_ids=input_ids, token_type_ids=token_type_ids, pad_token_id=self.args.eos_id,
+                    do_sample=True, top_p=self.args.top_p, max_length=self.args.max_len,
+                    output_hidden_states=True, output_scores=True, return_dict_in_generate=True,
+                ).sequences
+                output_ids = output_ids[0].tolist()[input_len:]
                 res = self.tokenizer.decode(output_ids, skip_special_tokens=True)
                 
                 print(f"Bot: {res}")
-                input_hists.append([self.args.sp2_id] + self.tokenizer.encode(res))
+                #input_hists.append([self.args.sp2_id] + self.tokenizer.encode(res))
                 
     def nucleus_sampling(self, input_ids, token_type_ids, input_len):
         output_ids = []

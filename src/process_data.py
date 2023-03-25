@@ -34,8 +34,7 @@ def load_custom(tokenizer, train_frac):
         new_dialogue = []
         for utter in dialogue:
             ## test ##
-            if utter == '':
-                utter = 'a'
+
             ## ##   
             if utter != '':
                 
