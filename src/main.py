@@ -15,6 +15,8 @@ import math
 import random
 
 
+
+
 class Manager():
     def __init__(self, args):
         self.args = args
@@ -270,7 +272,7 @@ class Manager():
                 
                 ## summarized input ##
                 input_hists = []
-                sumrz_input = "Summarzied sentence example"
+                sumrz_input = ""
                 sumrz_input_ids = [self.args.sp1_id] + self.tokenizer.encode(sumrz_input)
                 input_hists.append(sumrz_input_ids)
                 ## ##
@@ -305,12 +307,23 @@ class Manager():
                     do_sample=True, top_p=self.args.top_p, max_length=self.args.max_len,
                     output_hidden_states=True, output_scores=True, return_dict_in_generate=True,
                 ).sequences
+
+
                 output_ids = output_ids[0].tolist()[input_len:]
                 res = self.tokenizer.decode(output_ids, skip_special_tokens=True)
                 
                 print(f"Bot: {res}")
                 #input_hists.append([self.args.sp2_id] + self.tokenizer.encode(res))
-                
+    
+
+    
+
+    
+
+    
+    
+
+
     def nucleus_sampling(self, input_ids, token_type_ids, input_len):
         output_ids = []
         for pos in range(input_len, self.args.max_len):
@@ -350,6 +363,7 @@ class Manager():
 
 if __name__=='__main__':
     parser = argparse.ArgumentParser()
+
     parser.add_argument('--seed', type=int, default=0, help="The random seed.")
     parser.add_argument('--mode', type=str, required=True, help="The running mode: train or inference?")
     parser.add_argument('--data_dir', type=str, default="data", help="The name of the parent directory where data files are stored.")
@@ -371,10 +385,10 @@ if __name__=='__main__':
     parser.add_argument('--ckpt_dir', type=str, default="saved_models", help="The directory name for saved checkpoints.")
     parser.add_argument('--ckpt_name', type=str, required=False, help="The name of the trained checkpoint. (without extension)")
     parser.add_argument('--end_command', type=str, default="Abort!", help="The command to stop the conversation when inferencing.")
-              
+         
     args = parser.parse_args()
-    
-    assert args.mode in ["train", "infer"]
+
+    assert args.mode in ["train", "infer" , "test"]
     assert args.model_type in [
         "gpt2", "gpt2-medium", "gpt2-large", "gpt2-xl",
         "microsoft/DialoGPT-small", "microsoft/DialoGPT-medium", "microsoft/DialoGPT-large"
@@ -392,3 +406,4 @@ if __name__=='__main__':
         
         manager = Manager(args)
         manager.infer()
+
