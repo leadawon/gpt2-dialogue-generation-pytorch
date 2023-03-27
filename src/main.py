@@ -67,10 +67,6 @@ class Manager():
                 train_set = CustomDataset(self.args.train_prefix, self.args)
                 valid_set = CustomDataset(self.args.valid_prefix, self.args)
             ppd = PadCollate(eos_id=self.args.eos_id)
-
-            #print("ts[0]")
-            #print(train_set[0])
-            #assert False
             
             self.train_loader = DataLoader(train_set, 
                                            collate_fn=ppd.pad_collate, 
@@ -143,10 +139,6 @@ class Manager():
                 input_ids, token_type_ids, labels = \
                     input_ids.to(self.args.device), token_type_ids.to(self.args.device), labels.to(self.args.device)
                 
-                #print(f"input_ids : {input_ids}")
-                #print(f"token_type_ids : {token_type_ids}")
-                #print(f"labels : {labels}")
-                #assert False
 
                 
                 outputs = self.model(
@@ -162,10 +154,8 @@ class Manager():
                 self.optim.step()
                 self.sched.step()
                 
-                train_losses.append(loss.detach()) #segmentation error
-                ##
-                #assert False
-                ##
+                train_losses.append(loss.detach())
+
                 ppl = torch.exp(loss.detach())
                 train_ppls.append(ppl)
             
@@ -276,6 +266,8 @@ class Manager():
                 sumrz_input_ids = [self.args.sp1_id] + self.tokenizer.encode(sumrz_input)
                 input_hists.append(sumrz_input_ids)
                 ## ##
+                # 요약된 문장은 sumrz_input에 들어가게 됩니다.
+                # 지금은 요약툴이 없으므로 빈칸으로 두겠습니다.
 
                 input_ids = [self.args.sp2_id] + self.tokenizer.encode(utter)
                 input_hists.append(input_ids)
@@ -283,14 +275,16 @@ class Manager():
                 #if len(input_hists) >= self.args.max_turns:
                     #num_exceeded = len(input_hists) - self.args.max_turns + 1
                     #input_hists = input_hists[num_exceeded:]
+                #턴의 개념은 쓰지 않겟습니다.
                     
                 input_ids = [self.args.bos_id] + list(chain.from_iterable(input_hists)) + [self.args.sp1_id] # 2 -> 1
                 #start_sp_id = input_hists[0][0]
-                start_sp_id = self.args.sp1_id
+                start_sp_id = self.args.sp1_id # 항상 sp1으로 시작하기 때문이다.
            
                 #next_sp_id = self.args.sp1_id if start_sp_id == self.args.sp2_id else self.args.sp2_id
                 next_sp_id = self.args.sp2_id
-
+                # sp1 utter sp2 utter sp1 utter	
+                	
                 assert start_sp_id != next_sp_id
                 token_type_ids = [[start_sp_id] * len(hist) if h % 2 == 0 else [next_sp_id] * len(hist) for h, hist in enumerate(input_hists)]
                 assert len(token_type_ids) == len(input_hists)
@@ -314,6 +308,8 @@ class Manager():
                 
                 print(f"Bot: {res}")
                 #input_hists.append([self.args.sp2_id] + self.tokenizer.encode(res))
+                #이번에 생성한 대답은 다음 턴에 사용되지 않습니다.
+                #나중에 요약해주는 툴이 지금까지의 대화를 요약하고 그것이 입력으로 들어갑니다.
     
 
     
@@ -400,7 +396,6 @@ if __name__=='__main__':
     if args.mode == 'train':
         manager = Manager(args)
         manager.train()
-        #assert False
     elif args.mode == 'infer':
         assert args.ckpt_name is not None, "Please specify the trained model checkpoint."
         

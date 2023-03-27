@@ -67,9 +67,6 @@ class PadCollate():
         self.eos_id = eos_id
         
     def pad_collate(self, batch):
-        #print("batch")
-        #print(batch)
-        #assert False
 
         input_ids, token_type_ids, labels =[], [], []
         for idx, seqs in enumerate(batch):
@@ -100,15 +97,15 @@ class CustomDataset2(Dataset):
         for dial in tqdm(dials):
             hists = []
             for u, utter in enumerate(dial):
-                if u == 0:
+                if u == 0: #요약문장이 오는 자리리
                     hists.append([args.sp1_id] + utter)
-                elif u == 1:
+                elif u == 1: #USER의 utter가 오는 자리리
                     hists.append([args.sp2_id] + utter)
-                else:
+                else: #label
                     hists.append([args.sp1_id] + utter)
 
             input_ids = [args.bos_id] + list(chain.from_iterable(hists)) + [args.eos_id]
-            if len(input_ids) <= args.max_len:
+            if len(input_ids) <= args.max_len: #token_ids와 label도 sp1 sp2 sp1 ... -100 -100 ... 적절하게 붙여줍니다.
                 start_sp_id, next_sp_id = hists[0][0], hists[1][0]
                 token_type_ids = [[start_sp_id] * len(ctx) if c % 2 == 0 else [next_sp_id] * len(ctx) for c, ctx in enumerate(hists)]
                 assert token_type_ids[-1][0] == args.sp1_id
@@ -124,13 +121,11 @@ class CustomDataset2(Dataset):
                 self.token_type_ids.append(token_type_ids)
                 self.labels.append(labels)
 
-                #print(self.labels)
-                #assert False
+
 
             else:
                 print("Too Long...")   
-        #print(self.input_ids)
-        #print(len(input_ids[0]))  
+
 
                             
                             
@@ -139,7 +134,6 @@ class CustomDataset2(Dataset):
         return len(self.input_ids)
     
     def __getitem__(self, idx):
-        #print(self.input_ids[idx])
-        #assert False
+
         return self.input_ids[idx], self.token_type_ids[idx], self.labels[idx]
 

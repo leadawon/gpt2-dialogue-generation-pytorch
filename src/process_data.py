@@ -32,10 +32,7 @@ def load_custom(tokenizer, train_frac):
     
     for i, dialogue in enumerate(tqdm(total_dialogues)):
         new_dialogue = []
-        for utter in dialogue:
-            ## test ##
-
-            ## ##   
+        for utter in dialogue:   
             if utter.strip() != '':
                 
                 token_list = tokenizer.tokenize(utter.strip().replace(pre_quote, quotes[1]))

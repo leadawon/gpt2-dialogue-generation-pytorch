@@ -16,4 +16,5 @@ python src/main.py \
     --num_epochs=1 \
     --max_len=256 \
     --max_turns=5 \
+    --ckpt_name="best_ckpt_epoch=3_valid_loss=2.6631" \
     --ckpt_dir="saved_models"
