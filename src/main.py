@@ -384,7 +384,7 @@ if __name__=='__main__':
          
     args = parser.parse_args()
 
-    assert args.mode in ["train", "infer" , "test"]
+    assert args.mode in ["train", "infer"]
     assert args.model_type in [
         "gpt2", "gpt2-medium", "gpt2-large", "gpt2-xl",
         "microsoft/DialoGPT-small", "microsoft/DialoGPT-medium", "microsoft/DialoGPT-large"

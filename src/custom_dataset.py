@@ -97,9 +97,9 @@ class CustomDataset2(Dataset):
         for dial in tqdm(dials):
             hists = []
             for u, utter in enumerate(dial):
-                if u == 0: #요약문장이 오는 자리리
+                if u == 0: #요약문장이 오는 자리
                     hists.append([args.sp1_id] + utter)
-                elif u == 1: #USER의 utter가 오는 자리리
+                elif u == 1: #USER의 utter가 오는 자리
                     hists.append([args.sp2_id] + utter)
                 else: #label
                     hists.append([args.sp1_id] + utter)
