@@ -295,15 +295,14 @@ class Manager():
                 input_ids = torch.LongTensor(input_ids).unsqueeze(0).to(self.args.device)
                 token_type_ids = torch.LongTensor(token_type_ids).unsqueeze(0).to(self.args.device)
                 
-                #output_ids = self.nucleus_sampling(input_ids, token_type_ids, input_len)                
-                output_ids = self.model.generate(
-                    input_ids=input_ids, token_type_ids=token_type_ids, pad_token_id=self.args.eos_id,
-                    do_sample=True, top_p=self.args.top_p, max_length=self.args.max_len,
-                    output_hidden_states=True, output_scores=True, return_dict_in_generate=True,
-                ).sequences
-
-
-                output_ids = output_ids[0].tolist()[input_len:]
+                output_ids = self.nucleus_sampling(input_ids, token_type_ids, input_len)                
+                # output_ids = self.model.generate(
+                #     input_ids=input_ids, token_type_ids=token_type_ids, pad_token_id=self.args.eos_id,
+                #     do_sample=True, top_p=self.args.top_p, max_length=self.args.max_len,
+                #     output_hidden_states=True, output_scores=True, return_dict_in_generate=True,
+                # ).sequences
+                #output_ids = output_ids[0].tolist()[input_len:]
+                
                 res = self.tokenizer.decode(output_ids, skip_special_tokens=True)
                 
                 print(f"Bot: {res}")
