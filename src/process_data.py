@@ -22,7 +22,7 @@ def load_custom(tokenizer, train_frac):
     import json
 
     total_dialogues = []
-    with open('custom/summarized_data.json') as f:
+    with open('custom/summarized.json') as f:
         json_obj = json.load(f)
 
     for data_aug in range(1):
