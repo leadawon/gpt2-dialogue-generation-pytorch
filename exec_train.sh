@@ -8,7 +8,7 @@ python src/main.py \
     --bos_token="<bos>" \
     --sp1_token="<sp1>" \
     --sp2_token="<sp2>" \
-    --gpu="0" \
+    --gpu="4" \
     --lr=2e-5 \
     --warmup_ratio=0.0 \
     --batch_size=8 \
@@ -16,5 +16,5 @@ python src/main.py \
     --num_epochs=1 \
     --max_len=256 \
     --max_turns=5 \
-    --ckpt_name="best_ckpt_epoch=4_valid_loss=2.8838" \
+    --ckpt_name="best_ckpt_epoch=5_valid_loss=2.6794" \
     --ckpt_dir="saved_models"

@@ -3,7 +3,7 @@ from custom_dataset import *
 from tqdm import tqdm
 from torch.utils.data import DataLoader
 from torch.nn import functional as F
-from torch.utils.tensorboard import SummaryWriter
+#from torch.utils.tensorboard import SummaryWriter
 from itertools import chain
 
 import torch
@@ -95,7 +95,7 @@ class Manager():
                 power=2
             )
             
-            self.writer = SummaryWriter()
+            #self.writer = SummaryWriter()
         
         if self.args.ckpt_name is not None:
             ckpt_path = f"{self.args.ckpt_dir}/{self.args.ckpt_name}.ckpt"
@@ -167,8 +167,8 @@ class Manager():
             
             
 
-            self.writer.add_scalar("Loss/train", train_loss, epoch)
-            self.writer.add_scalar("PPL/train", train_ppl, epoch)
+            #self.writer.add_scalar("Loss/train", train_loss, epoch)
+            #self.writer.add_scalar("PPL/train", train_ppl, epoch)
             
             self.last_epoch += 1
             
@@ -191,17 +191,17 @@ class Manager():
             print(f"Best valid loss: {self.best_loss}")
             print(f"Valid loss: {valid_loss} || Valid perplexity: {valid_ppl}")
             
-            self.writer.add_scalar("Loss/valid", valid_loss, epoch)
-            self.writer.add_scalar("PPL/valid", valid_ppl, epoch)
+            #self.writer.add_scalar("Loss/valid", valid_loss, epoch)
+            #self.writer.add_scalar("PPL/valid", valid_ppl, epoch)
             
-            self.writer.add_scalars("Losses", {
-                'train': train_loss, 
-                'valid': valid_loss,
-            }, epoch)
-            self.writer.add_scalars("PPLs", {
-                'train': train_ppl,
-                'valid': valid_ppl,
-            }, epoch)
+            #self.writer.add_scalars("Losses", {
+                #'train': train_loss, 
+                #'valid': valid_loss,
+            #}, epoch)
+            #self.writer.add_scalars("PPLs", {
+                #'train': train_ppl,
+                #'valid': valid_ppl,
+            #}, epoch)
               
         print("Training finished!")
     
