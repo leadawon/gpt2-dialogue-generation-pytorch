@@ -1,91 +1,12 @@
 # gpt2-dialogue-generation-pytorch
 
-This is a multi-turn chatbot project using the pre-trained GPT-2[[1]](#1) introduced in *How to build a State-of-the-Art Conversational AI with Transfer Learning*[[2]](#2).
+https://github.com/devjwsong/gpt2-dialogue-generation-pytorch
 
-Especially, this repository uses the GPT-2 Language Modeling Head model which has one additional linear layer to conduct Language Modeling task to consider the dialogue contexts and make a proper next response.
+### I brought a multi-tone chatbot using [[https://github.com/devjwsong](https://github.com/devjwsong/gpt2-dialogue-generation-pytorch)](devjwsong/gpt2-dialogue-generation-pytorch) for research on the response generation model using conversation summary. 
 
-I did not include the persona information unlike the original version.
+The shell files(train, inference) below behaves differently from the [https://github.com/devjwsong/gpt2-dialogue-generation-pytorch](open source above). Take a summary as an input, not a conversation, like this [https://cdmon.tistory.com/34](link). The same goes for inference.
 
-<br/>
-
----
-
-### Arguments
-
-**Arguments for data loading**
-
-| Argument       | Type    | Description                                                  | Default   |
-| -------------- | ------- | ------------------------------------------------------------ | --------- |
-| `data_dir`     | `str`   | The name of the parent directory where data files are stored. | `"data"`  |
-| `train_prefix` | `str`   | The prefix of the train data files' name.                    | `"train"` |
-| `valid_prefix` | `str`   | The prefix of the validation data files' name.               | `"valid"` |
-| `train_frac`   | `float` | The ratio of the conversations to be included in the train set. | `0.85`    |
-| `model_type`   | `str`   | The model type of GPT-2. (`"gpt2"`, `"gpt2-medium"`, `"gpt2-large"`, or `"gpt2-xl"`) | `"gpt2"`  |
-
-<br/>
-
-**Arguments for training**
-
-| Argument              | Type              | Description                                                  | Default               |
-| --------------------- | ----------------- | ------------------------------------------------------------ | --------------------- |
-| `seed` | `int` | The random seed. | `0` |
-| `data_dir`            | `str`        | The name of the parent directory where data files are stored. | `"data"`              |
-| `train_prefix` | `str`       | The prefix of the train data files' name.                    | `"train"`             |
-| `valid_prefix` | `str`       | The prefix of the validation data files' name.               | `"valid"`    |
-| `model_type` | `str` | The model type of GPT-2. (`"gpt2"`, `"gpt2-medium"`, `"gpt2-large"`, or `"gpt2-xl"`) | `"gpt2"` |
-| `bos_token`          | `str`        | The BOS token.           | `"<bos>"`             |
-| `sp1_token`  | `str`       | The speaker1 token.                | `"<sp1>"`      |
-| `sp2_token`  | `str`       | The speaker2 token.              | `"<sp2>"`     |
-| `gpu`           | `str`        | The index of GPU to use. | `"0"`              |
-| `lr`      | `float` | The learning rate.                                       | `2e-5`            |
-| `warmup_ratio` | `float` | The ratio of warmup steps to the total training steps. | `0.1` |
-| `batch_size`          | `int` | The batch size.                                              | `8`                  |
-| `num_workers` | `int` | The number of workers for data loading. | `0` |
-| `num_epochs`          | `int` | The number of total epochs.   | `10`                  |
-| `max_len`      | `int`   | The maximum length of input sequence.                        | `1024`                |
-| `max_turns`   | `int`   | The maximum number of dialogue histories to include. | `5`                   |
-| `ckpt_dir`            | `str`        | The path for saved checkpoints.                              | `"saved_models"`      |
-| `ckpt_name`            | `str`        | The default name for the trained model. (without extension)                              | *YOU MIGHT SPECIFY*  |
-
-<br/>
-
-**Arguments for inference**
-
-| Argument      | Type    | Description                                                  | Default              |
-| ------------- | ------- | ------------------------------------------------------------ | -------------------- |
-| `seed`        | `int`   | The random seed.                                             | `0`                  |
-| `data_dir`    | `str`   | The name of the parent directory where data files are stored. | `"data"`             |
-| `model_type`  | `str`   | The model type of GPT-2. (`"gpt2"`, `"gpt2-medium"`, `"gpt2-large"`, or `"gpt2-xl"`) | `"gpt2"`             |
-| `bos_token`   | `str`   | The BOS token.                                               | `"<bos>"`            |
-| `sp1_token`   | `str`   | The speaker1 token.                                          | `"<sp1>"`            |
-| `sp2_token`   | `str`   | The speaker2 token.                                          | `"<sp2>"`            |
-| `gpu`         | `str`   | The index of GPU to use.                                     | `"0"`                |
-| `max_len`     | `int`   | The maximum length of input sequence.                        | `1024`               |
-| `max_turns`   | `int`   | The maximum number of dialogue histories to include.         | `5`                  |
-| `top_p`       | `float` | The top-p value for nucleus sampling decoding.               | `0.8`                |
-| `ckpt_dir`    | `str`   | The path for saved checkpoints.                              | `"saved_models"`     |
-| `ckpt_name`   | `str`   | The default name for the trained model. (without extension)  | *YOU SHOULD SPECIFY* |
-| `end_command` | `str`   | The command to stop the conversation when inferencing.       | `"Abort!"`           |
-
-<br/>
-
----
-
-### Datasets
-
-By default, I propose the codes for downloading the datasets and preprocessing.
-
-There are 4 types of the default datasets as follows.
-
-<br/>
-
-- DailyDialog[[3]](#3)
-- EmpatheticDialogues[[4]](#4)
-- Persona-Chat[[5]](#5)
-- BlendedSkillTalk[[6]](#6)
-
-<br/>
-
+Use run.ipynb rather than Powershell, bash...
 ---
 
 ### How to run
