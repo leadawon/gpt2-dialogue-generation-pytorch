@@ -2,61 +2,11 @@
 
 https://github.com/devjwsong/gpt2-dialogue-generation-pytorch
 
-### I brought a multi-tone chatbot using [[https://github.com/devjwsong](https://github.com/devjwsong/gpt2-dialogue-generation-pytorch)](devjwsong/gpt2-dialogue-generation-pytorch) for research on the response generation model using conversation summary. 
+### I brought a multi-tone chatbot using [devjwsong/gpt2-dialogue-generation-pytorch](https://github.com/devjwsong/gpt2-dialogue-generation-pytorch) for research on the response generation model using conversation summary. 
 
-The shell files(train, inference) below behaves differently from the [https://github.com/devjwsong/gpt2-dialogue-generation-pytorch](open source above). Take a summary as an input, not a conversation, like this [https://cdmon.tistory.com/34](link). The same goes for inference.
+The shell files(train, inference) below behaves differently from the [open source above](https://github.com/devjwsong/gpt2-dialogue-generation-pytorch). Take a summary as an input, not a conversation, like this [link](https://cdmon.tistory.com/34). The same goes for inference.
 
-Use run.ipynb rather than Powershell, bash...
----
-
-### How to run
-
-1. Install all required packages.
-
-   ```shell
-   pip install -r requirements.txt
-   ```
-
-   <br/>
-
-2. Download & Preprocess all datasets.
-
-   ```shell
-   sh exec_load_data.sh
-   ```
-
-   After running it, you will have the following data directory structure if you follow the default argument setting.
-
-   ```
-   data
-   └--gpt2
-       └--train_utters.pickle
-       └--train_ids.pickle
-       └--valid_utters.pickle
-       └--valid_ids.pickle
-   ```
-
-   <br/>
-
-3. Run the following command to train the model.
-
-   If you want to train it starting from a specific checkpoint, add the argument `ckpt_name` and make sure to notify the proper checkpoint name.
-
-   ```shell
-   sh exec_train.sh
-   ```
-   
-   <br/>
-
-4. Run below command to conduct an inference with the trained model.
-
-   This time, you are required to give a specific `ckpt_name`.
-
-   ```shell
-   sh exec_infer.sh
-   ```
-
-<br/>
+### Use run.ipynb rather than Powershell, bash...
 
 ---
 
