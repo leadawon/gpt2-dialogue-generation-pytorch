@@ -13,3 +13,5 @@ python src/main.py \
     --ckpt_dir="saved_models" \
     --ckpt_name="best_ckpt_epoch=3_valid_loss=2.6631" \
     --end_command="Abort!"
+
+python src/test.py

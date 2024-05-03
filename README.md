@@ -2,13 +2,27 @@
 
 [2023 한국컴퓨터종합학술대회 논문집](https://www.dbpia.co.kr/pdf/pdfView.do?nodeId=NODE11488165)
 
-### I brought a multi-tone chatbot using [devjwsong/gpt2-dialogue-generation-pytorch](https://github.com/devjwsong/gpt2-dialogue-generation-pytorch) for research on the response generation model using conversation summary. 
+This is the official implementation of the Korean Institute of Information Scientists and Engineers 2023 paper, "A Study on Response Generation Using Dialogue Summary" by Dohyun Cha, Dawon Lee, and Jihie Kim.
+
+I brought a multi-tone chatbot using [devjwsong/gpt2-dialogue-generation-pytorch](https://github.com/devjwsong/gpt2-dialogue-generation-pytorch) for research on the response generation model using conversation summary. 
 
 The shell files(train, inference) below behaves differently from the [open source above](https://github.com/devjwsong/gpt2-dialogue-generation-pytorch). Take a summary as an input, not a conversation, like this [link](https://cdmon.tistory.com/34). The same goes for inference.
 
-### Use run.ipynb rather than Powershell, bash...
+### How to Run Experiments?
 
----
+python >= 3.6
+
+```
+
+pip install -r requirements.txt
+
+bash exec_load_data.sh
+
+bash exec_train.sh
+
+bash exec_infer.sh
+
+```
 
 ### References of code
 
